@@ -1,0 +1,12 @@
+extends ../layouts/layout
+
+block content
+  h4 Register
+  form(method="POST", action="/register")
+    .input-field
+      input#username(type="text", name="username", required)
+      label(for="username") Username
+    .input-field
+      input#password(type="password", name="password", required)
+      label(for="password") Password
+    button.btn.waves-effect.waves-light(type="submit") Register

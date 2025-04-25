@@ -1,0 +1,38 @@
+doctype html
+html
+  head
+    title BlogApp
+    link(href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css", rel="stylesheet")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+  body
+    nav
+      .nav-wrapper.blue
+        .container
+          a.brand-logo(href="/") BlogApp
+          ul.right
+            if !user
+              li
+                a(href="/login") Login
+              li
+                a(href="/register") Register
+            else
+              li
+                a(href="/") #{user.username}
+              li
+                a(href="/logout") Logout
+    .container
+      block content
+
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js")
+    script.
+      document.addEventListener('DOMContentLoaded', function() {
+        if("#{success_msg}") {
+          M.toast({html: "#{success_msg}", classes: 'green'});
+        }
+        if("#{error_msg}") {
+          M.toast({html: "#{error_msg}", classes: 'red'});
+        }
+        if("#{error}") {
+          M.toast({html: "#{error}", classes: 'red'});
+        }
+      });
