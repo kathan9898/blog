@@ -1,0 +1,18 @@
+extends ../layouts/layout
+
+block content
+  h4 All Posts
+  a.btn.green(href="/posts/new") New Post
+
+  each post in posts
+    .card
+      .card-content
+        span.card-title #{post.title}
+        p #{post.content}
+        small Written by #{post.createdBy.username}
+        p Tags: #{post.tags.join(', ')}
+      .card-action
+        if user && user._id == post.createdBy._id.toString()
+          a(href=`/posts/${post._id}/edit`) Edit
+          form(method="POST", action=`/posts/${post._id}?_method=DELETE`)
+            button.btn.red.waves-effect(type="submit") Delete

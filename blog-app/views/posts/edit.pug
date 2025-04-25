@@ -1,0 +1,15 @@
+extends ../layouts/layout
+
+block content
+  h4 Edit Post
+  form(method="POST", action=`/posts/${post._id}?_method=PUT`)
+    .input-field
+      input#title(type="text", name="title", value=post.title, required)
+      label(for="title", class="active") Title
+    .input-field
+      textarea#content(name="content", class="materialize-textarea", required)= post.content
+      label(for="content", class="active") Content
+    .input-field
+      input#tags(type="text", name="tags", value=post.tags.join(', '))
+      label(for="tags", class="active") Tags
+    button.btn(type="submit") Update

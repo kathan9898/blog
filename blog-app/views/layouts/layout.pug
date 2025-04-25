@@ -23,7 +23,6 @@ html
     .container
       block content
 
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js")
     script.
       document.addEventListener('DOMContentLoaded', function() {
         if("#{success_msg}") {
@@ -36,3 +35,4 @@ html
           M.toast({html: "#{error}", classes: 'red'});
         }
       });
+

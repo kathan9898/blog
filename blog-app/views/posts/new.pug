@@ -1,0 +1,15 @@
+extends ../layouts/layout
+
+block content
+  h4 New Post
+  form(method="POST", action="/posts")
+    .input-field
+      input#title(type="text", name="title", required)
+      label(for="title") Title
+    .input-field
+      textarea#content(name="content", class="materialize-textarea", required)
+      label(for="content") Content
+    .input-field
+      input#tags(type="text", name="tags")
+      label(for="tags") Tags (comma-separated)
+    button.btn(type="submit") Create
