@@ -8,12 +8,12 @@ const path = require('path');
 
 const app = express();
 
-// Connect MongoDB
+// MongoDB connection
 mongoose.connect('mongodb://127.0.0.1:27017/blogApp', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => console.log('✅ MongoDB connected'))
-  .catch(err => console.log('❌ MongoDB error:', err));
+  .catch(err => console.log('❌ MongoDB connection error:', err));
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -30,14 +30,14 @@ app.use(session({
 }));
 
 // Passport
-require('./config/passport')(passport); // Load Passport config
+require('./config/passport')(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
 // Flash messages
 app.use(flash());
 
-// Global flash vars
+// Global flash variables
 app.use((req, res, next) => {
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
@@ -53,10 +53,11 @@ const postRoutes = require('./routes/posts');
 app.use('/', userRoutes);
 app.use('/posts', postRoutes);
 
+// Default route
 app.get('/', (req, res) => {
-  if (!req.isAuthenticated()) return res.redirect('/login');
+  // if (!req.isAuthenticated()) return res.redirect('/login');
   res.redirect('/posts');
 });
 
 const PORT = 3000;
-app.listen(PORT, () => console.log(`🚀 Server started on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running at http://localhost:${PORT}`));

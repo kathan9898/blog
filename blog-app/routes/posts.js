@@ -4,16 +4,15 @@ const postController = require('../controllers/postController');
 const isOwner = require('../middleware/isOwner');
 
 // Auth middleware
-// Auth middleware
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) return next();
   req.flash('error_msg', 'Please login first');
   res.redirect('/login');
 }
 
-
 // Routes
 router.get('/', postController.index);
+router.get('/search', postController.searchPosts); // <-- NEW
 router.get('/new', isLoggedIn, postController.getNew);
 router.post('/', isLoggedIn, postController.create);
 router.get('/:id/edit', isLoggedIn, isOwner, postController.getEdit);

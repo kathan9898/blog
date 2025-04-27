@@ -1,18 +1,51 @@
 extends ../layouts/layout
 
 block content
-  h4 All Posts
-  a.btn.green(href="/posts/new") New Post
+  h2.mb-4 Blog Posts
 
-  each post in posts
-    .card
-      .card-content
-        span.card-title #{post.title}
-        p #{post.content}
-        small Written by #{post.createdBy.username}
-        p Tags: #{post.tags.join(', ')}
-      .card-action
-        if user && user._id == post.createdBy._id.toString()
-          a(href=`/posts/${post._id}/edit`) Edit
-          form(method="POST", action=`/posts/${post._id}?_method=DELETE`)
-            button.btn.red.waves-effect(type="submit") Delete
+  input#search.form-control.mb-4(type="text", placeholder="Search by title or tag...")
+
+  #postList
+    each post in posts
+      .card.mb-3
+        .card-body
+          h4.card-title #{post.title}
+          p.card-text #{post.content}
+          p.text-muted Created by #{post.createdBy.username}
+          p Tags: #{post.tags.join(', ')}
+          if user && user._id == post.createdBy._id.toString()
+            a.btn.btn-primary.btn-sm(href=`/posts/${post._id}/edit`) Edit
+            form.d-inline(method="POST", action=`/posts/${post._id}?_method=DELETE`)
+              button.btn.btn-danger.btn-sm(type="submit") Delete
+
+  script.
+    const searchInput = document.getElementById('search');
+    const postList = document.getElementById('postList');
+
+    searchInput.addEventListener('keyup', async function () {
+      const query = this.value;
+      const res = await fetch(`/posts/search?q=${query}`);
+      const posts = await res.json();
+
+      let html = '';
+      posts.forEach(post => {
+        html += `
+          <div class="card mb-3">
+            <div class="card-body">
+              <h4 class="card-title">${post.title}</h4>
+              <p class="card-text">${post.content}</p>
+              <p class="text-muted">Created by ${post.createdBy.username}</p>
+              <p>Tags: ${post.tags.join(', ')}</p>
+              ${post.isOwner ? `
+                <a class="btn btn-primary btn-sm" href="/posts/${post._id}/edit">Edit</a>
+                <form method="POST" action="/posts/${post._id}?_method=DELETE" class="d-inline">
+                  <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                </form>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      });
+
+      postList.innerHTML = html;
+    });

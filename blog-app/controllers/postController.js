@@ -12,6 +12,18 @@ exports.index = async (req, res) => {
   res.render('posts/index', { posts });
 };
 
+exports.searchPosts = async (req, res) => {
+  const search = req.query.q || '';
+  const posts = await Post.find({
+    $or: [
+      { title: { $regex: search, $options: 'i' } },
+      { tags: { $regex: search, $options: 'i' } }
+    ]
+  }).populate('createdBy', 'username').sort({ createdAt: -1 });
+
+  res.json(posts); // Return JSON
+};
+
 exports.getNew = (req, res) => {
   res.render('posts/new');
 };
