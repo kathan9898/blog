@@ -1,0 +1,40 @@
+extends ../layouts/layout
+
+block content
+  h2.mb-4 Admin Dashboard
+
+  h4 Users
+  table.table.table-striped
+    thead
+      tr
+        th Username
+        th Admin
+        th Actions
+    tbody
+      each user in users
+        tr
+          td #{user.username}
+          td #{user.isAdmin ? 'Yes' : 'No'}
+          td
+            if !user.isAdmin
+              form(method="POST", action=`/admin/user/${user._id}/make-admin?_method=PUT`, style="display:inline-block")
+                button.btn.btn-success.btn-sm(type="submit") Make Admin
+            else
+              form(method="POST", action=`/admin/user/${user._id}/remove-admin?_method=PUT`, style="display:inline-block")
+                button.btn.btn-warning.btn-sm(type="submit") Remove Admin
+
+  h4.mt-5 Blog Posts
+  table.table.table-bordered
+    thead
+      tr
+        th Title
+        th Author
+        th Actions
+    tbody
+      each post in posts
+        tr
+          td #{post.title}
+          td #{post.createdBy.username}
+          td
+            form(method="POST", action=`/admin/post/${post._id}?_method=DELETE`, style="display:inline-block")
+              button.btn.btn-danger.btn-sm(type="submit") Delete

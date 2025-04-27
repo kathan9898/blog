@@ -39,9 +39,9 @@ app.use(flash());
 
 // Global flash variables
 app.use((req, res, next) => {
-  res.locals.success_msg = req.flash('success_msg');
-  res.locals.error_msg = req.flash('error_msg');
-  res.locals.error = req.flash('error');
+  res.locals.success_msg = req.flash('success_msg') || '';
+  res.locals.error_msg = req.flash('error_msg') || '';
+  res.locals.error = req.flash('error') || '';
   res.locals.user = req.user || null;
   next();
 });
@@ -49,9 +49,11 @@ app.use((req, res, next) => {
 // Routes
 const userRoutes = require('./routes/users');
 const postRoutes = require('./routes/posts');
+const adminRoutes = require('./routes/admin');
 
 app.use('/', userRoutes);
 app.use('/posts', postRoutes);
+app.use('/admin', adminRoutes);
 
 // Default route
 app.get('/', (req, res) => {
