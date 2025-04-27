@@ -3,8 +3,13 @@ extends ../layouts/layout
 block content
   h2.mb-4 Blog Posts
 
+  // New Post Button (Important!)
+  a.btn.btn-success.mb-3(href="/posts/new") + Create New Post
+
+  // Search Bar
   input#search.form-control.mb-4(type="text", placeholder="Search by title or tag...")
 
+  // Posts List
   #postList
     each post in posts
       .card.mb-3
@@ -18,6 +23,7 @@ block content
             form.d-inline(method="POST", action=`/posts/${post._id}?_method=DELETE`)
               button.btn.btn-danger.btn-sm(type="submit") Delete
 
+  // Live Search Script
   script.
     const searchInput = document.getElementById('search');
     const postList = document.getElementById('postList');
