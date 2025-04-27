@@ -1,15 +1,15 @@
 extends ../layouts/layout
 
 block content
-  h4 Edit Post
+  h2.mb-4 Edit Post
   form(method="POST", action=`/posts/${post._id}?_method=PUT`)
-    .input-field
-      input#title(type="text", name="title", value=post.title, required)
-      label(for="title", class="active") Title
-    .input-field
-      textarea#content(name="content", class="materialize-textarea", required)= post.content
-      label(for="content", class="active") Content
-    .input-field
-      input#tags(type="text", name="tags", value=post.tags.join(', '))
-      label(for="tags", class="active") Tags
-    button.btn(type="submit") Update
+    .mb-3
+      label.form-label(for="title") Title
+      input.form-control(type="text", name="title", value=post.title, required)
+    .mb-3
+      label.form-label(for="content") Content
+      textarea.form-control(name="content", rows="5", required)= post.content
+    .mb-3
+      label.form-label(for="tags") Tags (comma separated)
+      input.form-control(type="text", name="tags", value=post.tags.join(', '))
+    button.btn.btn-primary(type="submit") Update

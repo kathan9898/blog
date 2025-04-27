@@ -1,18 +1,17 @@
 extends ../layouts/layout
 
 block content
-  h4 All Posts
-  a.btn.green(href="/posts/new") New Post
+  h2.mb-4 All Blog Posts
+  a.btn.btn-success.mb-4(href="/posts/new") + Create New Post
 
   each post in posts
-    .card
-      .card-content
-        span.card-title #{post.title}
-        p #{post.content}
-        small Written by #{post.createdBy.username}
+    .card.mb-3
+      .card-body
+        h4.card-title #{post.title}
+        p.card-text #{post.content}
+        p.text-muted Created by #{post.createdBy.username}
         p Tags: #{post.tags.join(', ')}
-      .card-action
         if user && user._id == post.createdBy._id.toString()
-          a(href=`/posts/${post._id}/edit`) Edit
-          form(method="POST", action=`/posts/${post._id}?_method=DELETE`)
-            button.btn.red.waves-effect(type="submit") Delete
+          a.btn.btn-primary.btn-sm(href=`/posts/${post._id}/edit`) Edit
+          form.d-inline(method="POST", action=`/posts/${post._id}?_method=DELETE`)
+            button.btn.btn-danger.btn-sm(type="submit") Delete

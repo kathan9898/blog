@@ -1,12 +1,12 @@
 extends ../layouts/layout
 
 block content
-  h4 Login
+  h2.mb-4 Login
   form(method="POST", action="/login")
-    .input-field
-      input#username(type="text", name="username", required)
-      label(for="username") Username
-    .input-field
-      input#password(type="password", name="password", required)
-      label(for="password") Password
-    button.btn.waves-effect.waves-light(type="submit") Login
+    .mb-3
+      label.form-label(for="username") Username
+      input.form-control(type="text", name="username", required placeholder="Enter username")
+    .mb-3
+      label.form-label(for="password") Password
+      input.form-control(type="password", name="password", required placeholder="Enter password")
+    button.btn.btn-primary(type="submit") Login
